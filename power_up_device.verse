@@ -10,3 +10,12 @@ game_manager := class(creative_device):
 
     OnBeginPlay<override>()<suspends>: void =
         PowerUpDevice.ItemPickedUpEvent.Subscribe(UsePowerUp)
+
+    UsePowerUp(Agent : agent): void =
+        if (FortCharacter := Agent.GetFortCharacter[]):
+            PowerUpDevice.Pickup()
+
+    InitPlayers(): void =
+        set Players = GetPlayspace().GetPlayers()
+        if (Player := Players[0]):
+            PowerUpDevice.Spawn(Player.GetTransform().Translation)
